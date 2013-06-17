@@ -17,8 +17,11 @@ module Amnesia
     end
   
     def stats
-      stats_val = connection.stats
-      stats_val.values.first
+      if defined? Rails
+        Rails.cache.stats.values.first
+      else
+        connection.stats.values.first
+      end
     rescue Dalli::DalliError
       return {}
     end
